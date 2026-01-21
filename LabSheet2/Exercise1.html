@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML5 Canvas & Multimedia</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .section {
+            background: white;
+            padding: 30px;
+            margin: 20px 0;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+        canvas {
+            border: 2px solid #667eea;
+            display: block;
+            margin: 20px auto;
+        }
+        .player {
+            margin: 20px 0;
+        }
+        audio, video {
+            width: 100%;
+            margin: 10px 0;
+        }
+        .time-display {
+            color: #666;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="section">
+        <h2>HTML5 Canvas</h2>
+        <canvas id="myCanvas" width="500" height="300"></canvas>
+    </div>
+
+     <div class="section">
+        <h2>Audio Player</h2>
+        <div class="player">
+            <audio id="audioPlayer" controls>
+                <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+                Your browser does not support audio.
+            </audio>
+            <div class="time-display" id="audioTime">Current Time: 0:00</div>
+        </div>
+
+        <h2>Video Player</h2>
+        <div class="player">
+            <video id="videoPlayer" controls>
+                <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                Your browser does not support video.
+            </video>
+            <div class="time-display" id="videoTime">Current Time: 0:00</div>
+        </div>
+    </div>
+
+    <script>
+        // Wait for DOM to load
+        window.onload = function() {
+            // Exercise 1: Canvas Drawing
+            const canvas = document.getElementById('myCanvas');
+            const ctx = canvas.getContext('2d');
+
+        // Draw filled rectangle
+        ctx.fillStyle = '#667eea';
+        ctx.fillRect(50, 50, 150, 100);
+
+        // Draw filled circle
+        ctx.fillStyle = '#e74c3c';
+        ctx.beginPath();
+        ctx.arc(350, 100, 50, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Draw straight line
+        ctx.strokeStyle = '#2ecc71';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(50, 200);
+        ctx.lineTo(450, 200);
+        ctx.stroke();
+
+        // Draw text
+        ctx.fillStyle = '#333';
+        ctx.font = '24px Arial';
+        ctx.fillText('HTML5 Canvas', 180, 250);
+
+        // Exercise 2: Audio Time Display
+        const audio = document.getElementById('audioPlayer');
+        const audioTime = document.getElementById('audioTime');
+
+        audio.addEventListener('timeupdate', () => {
+            const minutes = Math.floor(audio.currentTime / 60);
+            const seconds = Math.floor(audio.currentTime % 60);
+            audioTime.textContent = `Current Time: ${minutes}:${seconds.toString().padStart(2, '0')}`;
+        });
+
+        // Video Time Display
+        const video = document.getElementById('videoPlayer');
+        const videoTime = document.getElementById('videoTime');
+
+        video.addEventListener('timeupdate', () => {
+            const minutes = Math.floor(video.currentTime / 60);
+            const seconds = Math.floor(video.currentTime % 60);
+            videoTime.textContent = `Current Time: ${minutes}:${seconds.toString().padStart(2, '0')}`;
+        });
+        };
+    </script>
+</body>
+</html>
