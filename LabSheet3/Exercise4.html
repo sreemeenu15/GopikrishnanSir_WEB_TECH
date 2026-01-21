@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activity Monitor</title>
+    <style>
+        :root {
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --primary: #6366f1;
+            --accent: #f43f5e;
+            --text: #1e293b;
+        }
+        body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); padding: 2rem; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .controls { margin-bottom: 1.5rem; display: flex; gap: 10px; }
+        
+        /* Dashboard Styling */
+        .log-container { 
+            background: var(--card); border-radius: 12px; padding: 1rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            height: 300px; overflow-y: auto; border: 1px solid #e2e8f0;
+        }
+        .log-entry { 
+            padding: 8px; border-bottom: 1px solid #f1f5f9; font-size: 0.9rem;
+            display: flex; justify-content: space-between; animation: fadeIn 0.3s ease;
+        }
+        .warning { background: #fff1f2; border: 1px solid var(--accent); color: var(--accent); padding: 1rem; border-radius: 8px; margin-bottom: 1rem; display: none; }
+        
+        /* Interaction Area */
+        .test-area { background: #eef2ff; padding: 2rem; border-radius: 12px; margin-bottom: 1.5rem; border: 2px dashed var(--primary); }
+        button { background: var(--primary); color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; transition: opacity 0.2s; }
+        button.reset { background: #64748b; }
+        button:hover { opacity: 0.9; }
+        input { padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>User Activity Monitor</h2>
+    
+    <div id="suspicious-warning" class="warning">
+        ⚠️ <strong>Suspicious Activity Detected:</strong> High click frequency!
+    </div>
+
+    <div class="test-area">
+        <p>Interact with these elements to generate logs:</p>
+        <input type="text" placeholder="Type something..." id="test-input">
+        <button id="test-btn">Click Me Fast</button>
+    </div>
+
+    <div class="controls">
+        <button class="reset" onclick="resetLogs()">Reset Log</button>
+        <button onclick="exportLogs()">Export as Text</button>
+    </div>
+
+    <div class="log-container" id="log-display">
+        </div>
+</div>
+
+<script src="Exercise4.js"></script>
+</body>
+</html>

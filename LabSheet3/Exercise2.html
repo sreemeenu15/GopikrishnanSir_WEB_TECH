@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        :root { --p: #6366f1; --bg: #f8fafc; --txt: #1e293b; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--txt); display: flex; justify-content: center; padding: 40px; }
+        .cart-card { background: white; width: 400px; padding: 25px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        .item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #f1f5f9; }
+        .qty-btns button { border: none; background: #e2e8f0; border-radius: 4px; cursor: pointer; padding: 2px 8px; }
+        .discount-tag { color: #10b981; font-size: 0.85rem; font-weight: 600; }
+        input { width: 100%; padding: 10px; margin: 15px 0; border: 1px solid #e2e8f0; border-radius: 8px; box-sizing: border-box; }
+        .total-sec { margin-top: 20px; border-top: 2px solid #f1f5f9; pt: 15px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="cart-card">
+        <h3>Shopping Cart</h3>
+        <div id="cart-items"></div>
+        <input type="text" id="coupon" placeholder="Enter Coupon (e.g., SAVE10)" oninput="updateCart()">
+        <div class="total-sec">
+            <div id="discounts" class="discount-tag"></div>
+            <div style="display: flex; justify-content: space-between; margin-top: 10px;">
+                <span>Total:</span> <span id="total-price">$0.00</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let products = [
+            { id: 1, name: "Wireless Mouse", price: 25.00, qty: 1, category: "Tech" },
+            { id: 2, name: "Mechanical Keyboard", price: 80.00, qty: 1, category: "Tech" }
+        ];
+
+        function updateCart() {
+            const container = document.getElementById('cart-items');
+            container.innerHTML = '';
+            let subtotal = 0;
+
+            products.forEach(p => {
+                subtotal += p.price * p.qty;
+                container.innerHTML += `
+                    <div class="item">
+                        <div>${p.name} <br> <small>$${p.price}</small></div>
+                        <div class="qty-btns">
+                            <button onclick="changeQty(${p.id}, -1)">-</button>
+                            <span style="margin: 0 10px">${p.qty}</span>
+                            <button onclick="changeQty(${p.id}, 1)">+</button>
+                        </div>
+                    </div>`;
+            });
+
+            // Rules: 10% Bulk discount if total qty > 5
+            let totalQty = products.reduce((acc, p) => acc + p.qty, 0);
+            let discount = totalQty > 5 ? subtotal * 0.10 : 0;
+
+            // Coupon Rule: "SAVE10" gives flat $10 off
+            const coupon = document.getElementById('coupon').value.trim().toUpperCase();
+            if (coupon === "SAVE10") discount += 10;
+
+            const finalTotal = Math.max(0, subtotal - discount);
+            document.getElementById('discounts').innerText = discount > 0 ? `Total Savings: -$${discount.toFixed(2)}` : '';
+            document.getElementById('total-price').innerText = `$${finalTotal.toFixed(2)}`;
+        }
+
+        function changeQty(id, delta) {
+            const p = products.find(x => x.id === id);
+            p.qty = Math.max(0, p.qty + delta);
+            updateCart();
+        }
+        updateCart();
+    </script>
+</body>
+</html>

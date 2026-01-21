@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Adaptive Registration</title>
+    <style>
+        .error { border: 2px solid red; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+<form id="regForm">
+    Name: <input type="text" id="name"><br><br>
+    Email: <input type="text" id="email"><br><br>
+    Password: <input type="password" id="password"><br><br>
+    Confirm Password: <input type="password" id="confirm"><br><br>
+    Age: <input type="number" id="age"><br><br>
+
+    Role:
+    <select id="role" onchange="updateRules()">
+        <option value="">Select</option>
+        <option value="student">Student</option>
+        <option value="teacher">Teacher</option>
+        <option value="admin">Admin</option>
+    </select><br><br>
+
+    Skills:
+    <input type="text" id="skills" class="hidden"><br><br>
+
+    <button type="submit">Register</button>
+</form>
+
+<script>
+document.getElementById("regForm").onsubmit = function(e) {
+    e.preventDefault();
+    validateForm();
+};
+
+function updateRules() {
+    let role = document.getElementById("role").value;
+    let skills = document.getElementById("skills");
+    skills.classList.toggle("hidden", role === "admin");
+}
+
+function validateForm() {
+    let email = document.getElementById("email");
+    let password = document.getElementById("password");
+    let confirm = document.getElementById("confirm");
+    let role = document.getElementById("role").value;
+
+    email.classList.remove("error");
+    password.classList.remove("error");
+
+    if (!email.value.endsWith("@gmail.com")) {
+        email.classList.add("error");
+        alert("Invalid email domain");
+        return;
+    }
+
+    if (password.value !== confirm.value) {
+        password.classList.add("error");
+        alert("Passwords do not match");
+        return;
+    }
+
+    if (role === "admin" && password.value.length < 10) {
+        password.classList.add("error");
+        alert("Admin password must be strong");
+        return;
+    }
+
+    alert("Registration Successful");
+}
+</script>
+
+</body>
+</html>

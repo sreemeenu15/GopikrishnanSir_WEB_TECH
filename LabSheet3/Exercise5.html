@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Premium Form Workflow</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --success: #10b981;
+            --error: #ef4444;
+            --gray: #e2e8f0;
+        }
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; display: flex; justify-content: center; padding: 40px; }
+        .form-card { background: white; width: 450px; padding: 30px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        
+        /* Progress Bar */
+        .progress-container { height: 8px; background: var(--gray); border-radius: 4px; margin-bottom: 30px; overflow: hidden; }
+        #progress-fill { height: 100%; background: var(--primary); width: 25%; transition: width 0.4s ease; }
+
+        /* Stages */
+        .form-stage { display: none; }
+        .form-stage.active { display: block; animation: slideIn 0.3s ease-out; }
+        
+        h2 { margin-top: 0; color: #1e293b; font-size: 1.25rem; }
+        input { width: 100%; padding: 12px; margin: 10px 0; border: 1.5px solid var(--gray); border-radius: 8px; box-sizing: border-box; }
+        .error-text { color: var(--error); font-size: 0.8rem; margin-bottom: 10px; display: none; }
+        
+        .btn-group { display: flex; justify-content: space-between; margin-top: 20px; }
+        button { padding: 10px 20px; border-radius: 8px; border: none; cursor: pointer; font-weight: 600; }
+        .btn-next { background: var(--primary); color: white; }
+        .btn-prev { background: var(--gray); color: #475569; }
+        
+        @keyframes slideIn { from { opacity: 0; transform: translateX(10px); } to { opacity: 1; transform: translateX(0); } }
+    </style>
+</head>
+<body>
+
+<div class="form-card">
+    <div class="progress-container">
+        <div id="progress-fill"></div>
+    </div>
+
+    <form id="workflow-form">
+        <div class="form-stage active" data-stage="1">
+            <h2>Personal Details</h2>
+            <input type="text" id="username" placeholder="Full Name">
+            <p class="error-text">Name is required (min 3 chars).</p>
+        </div>
+
+        <div class="form-stage" data-stage="2">
+            <h2>Account Security</h2>
+            <input type="email" id="email" placeholder="Email Address">
+            <p class="error-text">Please enter a valid email.</p>
+        </div>
+
+        <div class="form-stage" data-stage="3">
+            <h2>Your Interests</h2>
+            <input type="text" id="interest" placeholder="Main Interest (e.g. Design)">
+            <p class="error-text">Field cannot be empty.</p>
+        </div>
+
+        <div class="form-stage" data-stage="4">
+            <h2>Review & Submit</h2>
+            <p id="summary-text" style="color: #64748b; line-height: 1.6;"></p>
+        </div>
+
+        <div class="btn-group">
+            <button type="button" class="btn-prev" id="prevBtn" style="visibility: hidden;">Back</button>
+            <button type="button" class="btn-next" id="nextBtn">Next</button>
+        </div>
+    </form>
+</div>
+
+<script src="Exercise5.js"></script>
+</body>
+</html>
